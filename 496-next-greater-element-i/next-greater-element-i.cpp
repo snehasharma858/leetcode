@@ -1,31 +1,34 @@
 class Solution {
 public:
-
     vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
-       
-        vector<int> result;
-        
-        for (int i = 0; i < nums1.size(); i++) {
 
-            int j = 0;
+        unordered_map<int, int> mp;
+        stack<int> st;
 
-            while (nums2[j] != nums1[i]) {
-                j++;
+        // Find next greater element for every element in nums2
+        for (int x : nums2) {
+
+            while (!st.empty() && st.top() < x) {
+                mp[st.top()] = x;
+                st.pop();
             }
-             int ans = -1;
 
-       
-            for (int k = j + 1; k < nums2.size(); k++) {
-
-                if (nums2[k] > nums1[i]) {
-                    ans = nums2[k];
-                    break;
-                }
-
-           
-     }
-      result.push_back(ans);
+            st.push(x);
         }
-            return result;
+
+        // Remaining elements have no greater element
+        while (!st.empty()) {
+            mp[st.top()] = -1;
+            st.pop();
+        }
+
+        // Build answer for nums1
+        vector<int> result;
+
+        for (int x : nums1) {
+            result.push_back(mp[x]);
+        }
+
+        return result;
     }
 };
