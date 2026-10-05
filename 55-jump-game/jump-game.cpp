@@ -1,29 +1,17 @@
 class Solution {
 public:
-bool solve(vector<int>& nums,int i,vector<int>& dp){
-   if (i == nums.size() - 1) {
-        return true;
-    }
-
-    if (i >= nums.size()) {
-        return false;
-    }
-    if (dp[i] != -1) {
-            return dp[i];
-     }
-   
-    for(int k=1;k<=nums[i];k++){
-       
-        if(solve(nums,i+k,dp)){
-            return dp[i]= true;
-            
-        }
-    }
-    return dp[i]= false;
-
-}
     bool canJump(vector<int>& nums) {
-          vector<int> dp(nums.size(), -1);
-      return solve(nums,0,dp);  
+        int n=nums.size();
+        int farthest=0;
+       for(int i=0;i<nums.size();i++){
+          if(i>farthest){
+            return false;
+          }
+          farthest=max(farthest,i+nums[i]);
+         if (farthest >= nums.size() - 1){
+                return true;}
+
+       } 
+return false;
     }
 };
