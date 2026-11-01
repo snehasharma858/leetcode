@@ -4,31 +4,48 @@ public:
         int m = board.size();
         int n = board[0].size();
 
-        vector<vector<int>> temp = board;
+       
 
         for(int i = 0; i < m; i++) {
             for(int j = 0; j < n; j++) {
+                int count=0;
+                for(int x= -1;x<=1;x++){
+                    for(int y=-1;y<=1;y++){
+                        if(x==0 && y==0){
+                            continue;}
 
-                int count = 0;
-
-                if(i-1>=0 && j-1>=0 && temp[i-1][j-1]==1) count++;
-                if(i-1>=0 && temp[i-1][j]==1) count++;
-                if(j-1>=0 && temp[i][j-1]==1) count++;
-                if(i+1<m && j+1<n && temp[i+1][j+1]==1) count++;
-                if(i+1<m && temp[i+1][j]==1) count++;
-                if(j+1<n && temp[i][j+1]==1) count++;
-                if(i-1>=0 && j+1<n && temp[i-1][j+1]==1) count++;
-                if(i+1<m && j-1>=0 && temp[i+1][j-1]==1) count++;
-
-                if(temp[i][j] == 1) {
-                    if(count < 2 || count > 3) {
-                        board[i][j] = 0;
+                        int r=x+i;
+                        int c=y+j;
+                        if(r >= 0 && r < m && c >= 0 && c < n){
+                            if(board[r][c]==1 || board[r][c]==2){
+                                count++;
+                            }
+                        }
                     }
                 }
-                else {
-                    if(count == 3) {
-                        board[i][j] = 1;
+                if(board[i][j]==1){
+                     if(count < 2 || count > 3) {
+                        board[i][j] = 2;
                     }
+                }
+                 else if(board[i][j] == 0) {
+
+                   
+                    if(count == 3) {
+                        board[i][j] = 3;
+                    }
+
+            }
+            }
+        }
+         for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+
+                if(board[i][j] == 2) {
+                    board[i][j] = 0;
+                }
+                else if(board[i][j] == 3) {
+                    board[i][j] = 1;
                 }
             }
         }
